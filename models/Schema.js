@@ -9,4 +9,4 @@ const DataSchema = new mongoose.Schema({
   IsManager: {type:Boolean,require:true,default:true}
 });
 
-export const DATA = mongoose.model("Data", DataSchema)
+export const DATA = mongoose.model("Data", DataSchema);
