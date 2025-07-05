@@ -1,7 +1,0 @@
-🧠 Project Overview
-🔧 Stack:
-HTML + CSS + JS (Frontend)
-Node.js + Express + MongoDB + Mongoose (Backend)
-
-🎯 Goal:
-Click button → Insert 10 random employees in DB → Show confirmation
