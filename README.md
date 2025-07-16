@@ -21,10 +21,13 @@ This repo contains hands-on practice work ranging from beginner-friendly HTML/CS
 ## 🚀 Tech Stack Used:
 
 - HTML5, CSS3
-- JavaScript (Vanilla)
+- JavaScript
 - Node.js
 - Express.js
 - Git & GitHub
+- REACT
+- MongoDB
+- TailwindCSS
 
 ---
 
