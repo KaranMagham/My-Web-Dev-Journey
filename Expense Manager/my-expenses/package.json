@@ -9,10 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "lucide-react": "^0.544.0",
+    "mongoose": "^8.18.2",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-router-dom": "^7.9.2"
+    "react-hook-form": "^7.63.0",
+    "react-router-dom": "^7.9.2",
+    "recharts": "^3.2.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
