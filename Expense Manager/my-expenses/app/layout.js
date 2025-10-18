@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import SessionWrapper from "./component/SessionWrapper";
 import Navbar from "/components/Navbar/page";
 import "./globals.css";
 
@@ -20,10 +21,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <SessionWrapper>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />
         <main className="ml-[14vw] sm:ml-40 md:ml-64 flex-1 min-h-screen">{children}</main>
       </body>
+      </SessionWrapper>
     </html>
   );
 }

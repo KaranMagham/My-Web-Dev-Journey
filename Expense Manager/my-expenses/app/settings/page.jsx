@@ -462,7 +462,7 @@ const SettingsPage = () => {
                         <option value="GBP">British Pound (£)</option>
                       </select>
                     </div>
-                    <div>
+                    {/* <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">Language</label>
                       <select
                         value={settings.language}
@@ -474,7 +474,7 @@ const SettingsPage = () => {
                         <option value="Spanish">Spanish</option>
                         <option value="French">French</option>
                       </select>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               )}

@@ -16,6 +16,7 @@ export default function Home() {
     "Build your wealth"
   ];
 
+
   useEffect(() => {
     const typeSpeed = isDeleting ? 50 : 100;
     const pauseTime = 2000;
