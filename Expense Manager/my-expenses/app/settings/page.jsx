@@ -76,6 +76,18 @@ const SettingsPage = () => {
     loadSettings();
   }, []);
 
+  useEffect(() => {
+  const fetchSettings = async () => {
+    const res = await fetch("/api/settings", { credentials: "include" });
+    const json = await res.json();
+    if (json.success && json.data) {
+      setSettings(json.data);
+    }
+  };
+  fetchSettings();
+}, []);
+
+
   // Load settings from localStorage on component mount
   const loadSettings = () => {
     try {
@@ -108,26 +120,26 @@ const SettingsPage = () => {
   };
 
   // Save settings to API (for future backend integration)
-  const saveSettingsToAPI = async (settingsToSave) => {
-    try {
-      const response = await fetch('/api/settings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settingsToSave),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to save settings to server');
-      }
-      
-      return await response.json();
-    } catch (error) {
-      console.error('Error saving to API:', error);
-      throw error;
+  const saveSettingsToAPI = async (settings) => {
+  try {
+    const res = await fetch("/api/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(settings),
+      credentials: "include",
+    });
+
+    const json = await res.json();
+    if (json.success) {
+      console.log("✅ Settings saved successfully:", json.data);
+    } else {
+      console.error("❌ Failed to save settings:", json.error);
     }
-  };
+  } catch (err) {
+    console.error("Error saving settings:", err);
+  }
+};
+
 
   const handleSettingChange = (key, value) => {
     const newSettings = {

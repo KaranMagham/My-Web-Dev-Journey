@@ -90,7 +90,7 @@ export default function Home() {
               </span>
             </Link>
             <Link
-              href="/signup"
+              href="/about"
               className="group px-8 py-4 rounded-2xl border-2 border-[#10B981] text-[#10B981] font-semibold hover:bg-[#ddf7d5] hover:border-[#16d495] hover:text-[#16d495] transition-all duration-300 transform hover:-translate-y-1"
             >
               <span className="flex items-center justify-center gap-2">
@@ -202,7 +202,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/signup"
+              href="/login"
               className="group px-8 py-4 rounded-2xl bg-white text-[#10B981] font-bold shadow-lg hover:bg-gray-50 transition-all duration-300 transform hover:-translate-y-1"
             >
               <span className="flex items-center justify-center gap-2">

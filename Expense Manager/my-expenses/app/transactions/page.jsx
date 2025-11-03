@@ -3,8 +3,10 @@ import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from "react-hook-form";
 import { Edit2, Trash2, Plus, TrendingUp, TrendingDown, Calendar, DollarSign, FileText } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const ManageTransactions = () => {
+  const router = useRouter();
   const [showTransaction, setShowTransaction] = useState(false);
   const [savedTransactions, setsavedTransactions] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -19,8 +21,9 @@ const ManageTransactions = () => {
 
   const getTransaction = async () => {
     try {
-      let req = await fetch("/api/transactions");
-      const data = await req.json();
+      const res = await fetch("/api/transactions", { credentials: "same-origin" });
+      if (res.status === 401) return router.push('/login');
+      const data = await res.json();
       setsavedTransactions(Array.isArray(data.data) ? data.data : []);
     } catch (error) {
       console.error("Error fetching transactions:", error);
@@ -59,7 +62,9 @@ const ManageTransactions = () => {
     try {
       const res = await fetch(`/api/transactions/${entryToDelete._id}`, {
         method: "DELETE",
+        credentials: "same-origin",
       });
+      if (res.status === 401) return router.push('/login');
       if (!res.ok) throw Error("Failed to delete entry from backend");
       setsavedTransactions(prev => prev.filter((_, i) => i !== index));
     } catch (error) {
@@ -91,8 +96,10 @@ const ManageTransactions = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "same-origin",
           body: JSON.stringify(newEntry),
         });
+        if (res.status === 401) return router.push('/login');
 
         const responseData = await res.json();
 
@@ -126,8 +133,10 @@ const ManageTransactions = () => {
         const res = await fetch("/api/transactions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
           body: JSON.stringify(newEntry),
         });
+        if (res.status === 401) return router.push('/login');
         const data = await res.json();
         if (!res.ok) {
           console.error("API error:", data);

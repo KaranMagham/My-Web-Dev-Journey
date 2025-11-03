@@ -1,46 +1,60 @@
-import { NextResponse } from 'next/server';
+import clientPromise from "@/app/lib/mongodb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
-// GET /api/settings - Get user settings
-export async function GET() {
+export async function GET(req) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return Response.json({ success: false, error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    // In a real app, you'd fetch from database based on user session
-    return NextResponse.json({
-      success: true,
-      message: 'Settings endpoint ready',
-      data: {
-        note: 'Settings are stored in localStorage. This endpoint is for future backend integration.'
-      }
-    });
+    const client = await clientPromise;
+    const db = client.db("wealthflow");
+
+    const userEmail = session.user.email;
+    const settings = await db.collection("settings").findOne({ email: userEmail });
+
+    if (!settings) {
+      return Response.json({ success: true, data: {} }); // Empty if first time
+    }
+
+    return Response.json({ success: true, data: settings });
   } catch (error) {
-    console.error('Settings GET error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch settings' },
-      { status: 500 }
-    );
+    console.error("GET /api/settings error:", error);
+    return Response.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
-// POST /api/settings - Save user settings
-export async function POST(request) {
+export async function POST(req) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return Response.json({ success: false, error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    const settings = await request.json();
-    
-    // In a real app, you'd save to database based on user session
-    console.log('Settings received:', settings);
-    
-    // Simulate saving to database
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return NextResponse.json({
-      success: true,
-      message: 'Settings saved successfully',
-      data: settings
-    });
-  } catch (error) {
-    console.error('Settings POST error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to save settings' },
-      { status: 500 }
+    const body = await req.json();
+    const client = await clientPromise;
+    const db = client.db("wealthflow");
+
+    const userEmail = session.user.email;
+
+    const updated = await db.collection("settings").findOneAndUpdate(
+      { email: userEmail },
+      {
+        $set: {
+          email: userEmail,
+          ...body,
+          updatedAt: new Date(),
+        },
+        $setOnInsert: { createdAt: new Date() },
+      },
+      { upsert: true, returnDocument: "after" }
     );
+
+    return Response.json({ success: true, data: updated.value });
+  } catch (error) {
+    console.error("POST /api/settings error:", error);
+    return Response.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
