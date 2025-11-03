@@ -1,0 +1,12 @@
+h1 {
+  color: blueviolet;
+  background-color: rgb(0, 255, 229);
+  border: 2px dotted blue;
+}
+
+p {
+  color: rgb(255, 108, 108);
+  background-color: rgb(255, 169, 231);
+  border: 3px dashed rgb(255, 251, 22);
+  padding: 10px;
+}

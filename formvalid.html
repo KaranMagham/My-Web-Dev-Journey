@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Form Validation</title>
+</head>
+<body>
+  <h2>Registration Form</h2>
+
+  <form onsubmit="return validateForm()">
+    Name: <input type="text" id="name"><br><br>
+    Email: <input type="text" id="email"><br><br>
+    Password: <input type="password" id="password"><br><br>
+    <input type="submit" value="submit" id="submit">
+  </form>
+
+  <script>
+    function validateForm() {
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      if (name === "" || email === "" || password === "") {
+        alert("All Fields Are Required.");
+        return false;
+      }
+
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.match(emailPattern)) {
+        alert("Please Enter A Valid Email Address.");
+        return false;
+      }
+
+      if (password.length < 8) {
+        alert("Password Must Be At Least 8 Characters Long.");
+        return false;
+      }
+
+      alert("Form Submitted Successfully!");
+    }
+  </script>
+</body>
+</html>
