@@ -28,16 +28,29 @@ const ContactPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_CONTACT_API || 'http://localhost:4000/api/contact';
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || 'Failed to send message');
+      }
+
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset status after 3 seconds
+      setIsSubmitting(false);
       setTimeout(() => setSubmitStatus(null), 3000);
-    }, 2000);
+    } catch (err) {
+      console.error(err);
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus(null), 5000);
+    }
   };
 
   const socialLinks = [
